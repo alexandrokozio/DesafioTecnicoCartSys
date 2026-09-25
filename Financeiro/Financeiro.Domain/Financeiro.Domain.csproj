@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Núcleo do domínio: sem dependências de infraestrutura ou pacotes externos. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Financeiro.Domain.Tests" />
+  </ItemGroup>
+
+</Project>

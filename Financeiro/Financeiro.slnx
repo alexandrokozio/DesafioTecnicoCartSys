@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="Financeiro.API/Financeiro.API.csproj" Id="0046b082-7020-4091-bff2-cb4501d9b683" />
+    <Project Path="Financeiro.Application/Financeiro.Application.csproj" />
+    <Project Path="Financeiro.Domain/Financeiro.Domain.csproj" />
+    <Project Path="Financeiro.Infrastructure/Financeiro.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="Financeiro.Application.Tests/Financeiro.Application.Tests.csproj" />
+    <Project Path="Financeiro.Domain.Tests/Financeiro.Domain.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="dotnet-tools.json" />
+  </Folder>
+</Solution>

@@ -1,0 +1,11 @@
+# Padrao Windows: arquivos de texto com CRLF no checkout
+* text=auto eol=crlf
+
+# Binarios
+*.exe binary
+*.dll binary
+*.res binary
+*.FDB binary
+*.fdb binary
+*.pdf binary
+*.docx binary

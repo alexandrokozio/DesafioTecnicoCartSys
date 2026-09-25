@@ -1,0 +1,44 @@
+﻿; Copie para a pasta do executável como ERP.Vendas.ini e ajuste os valores.
+; Chaves ausentes assumem o valor padrão indicado.
+
+[Database]
+; padrão: localhost / 3050
+Server=localhost
+Port=3050
+; padrão: <pasta do executável>\CARTSYS_ERP_VENDAS.FDB
+Database=C:\CartSys\CARTSYS_ERP_VENDAS.FDB
+UserName=SYSDBA
+Password=masterkey
+CharacterSet=UTF8
+
+[Api]
+; API REST embutida no desktop (recebe os webhooks do ERP Financeiro).
+Habilitada=1
+Porta=9000
+Bind=0.0.0.0
+; Obrigatória: sem chave, as rotas protegidas respondem 401 (fail closed).
+; O ERP Financeiro deve enviar este valor no header X-Api-Key.
+ApiKey=troque-esta-chave-vendas
+
+[Financeiro]
+; API REST do ERP Financeiro (C#).
+BaseUrl=http://localhost:5001/api/v1
+ApiKey=troque-esta-chave-financeiro
+TimeoutMs=10000
+
+[Smtp]
+; Para testes locais use smtp4dev ou Papercut (Host=localhost, Porta=25).
+Host=localhost
+Porta=25
+Usuario=
+Senha=
+; UsarTLS=1 exige libeay32.dll e ssleay32.dll ao lado do executável.
+UsarTLS=0
+Remetente=vendas@cartsys.local
+NomeRemetente=CartSys ERP Vendas
+
+[Outbox]
+Habilitado=1
+IntervaloSegundos=15
+LoteMaximo=20
+MaxTentativas=10

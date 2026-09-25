@@ -1,0 +1,136 @@
+﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+
+BEGIN TRANSACTION;
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE TABLE [OUTBOX_NOTIFICACAO] (
+        [ID] bigint NOT NULL IDENTITY,
+        [TIPO] varchar(30) NOT NULL,
+        [VENDA_ID] int NOT NULL,
+        [CONTEUDO] nvarchar(max) NOT NULL,
+        [STATUS] varchar(20) NOT NULL,
+        [TENTATIVAS] int NOT NULL,
+        [PROXIMA_TENTATIVA] datetime2 NOT NULL,
+        [ULTIMO_ERRO] nvarchar(1000) NULL,
+        [DATA_CRIACAO] datetime2 NOT NULL,
+        [DATA_ENVIO] datetime2 NULL,
+        CONSTRAINT [PK_OUTBOX_NOTIFICACAO] PRIMARY KEY ([ID])
+    );
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE TABLE [VENDA_FINANCEIRA] (
+        [ID] int NOT NULL IDENTITY,
+        [VENDA_ID] int NOT NULL,
+        [DATA_VENDA] datetime2 NOT NULL,
+        [CLIENTE_ID] int NOT NULL,
+        [CLIENTE_NOME] nvarchar(150) NOT NULL,
+        [CLIENTE_DOCUMENTO] nvarchar(18) NOT NULL,
+        [CLIENTE_EMAIL] nvarchar(150) NULL,
+        [STATUS] varchar(20) NOT NULL,
+        [VALOR_TOTAL] decimal(15,2) NOT NULL,
+        [DATA_RECEBIMENTO] datetime2 NOT NULL,
+        [DATA_ATUALIZACAO] datetime2 NOT NULL,
+        [DATA_QUITACAO] datetime2 NULL,
+        [FORMA_PAGAMENTO] nvarchar(50) NULL,
+        [DATA_CANCELAMENTO] datetime2 NULL,
+        [MOTIVO_CANCELAMENTO] nvarchar(250) NULL,
+        [ORIGEM_CANCELAMENTO] varchar(20) NULL,
+        [VERSAO] uniqueidentifier NOT NULL,
+        CONSTRAINT [PK_VENDA_FINANCEIRA] PRIMARY KEY ([ID])
+    );
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE TABLE [VENDA_FINANCEIRA_ITEM] (
+        [ID] int NOT NULL IDENTITY,
+        [PRODUTO_ID] int NOT NULL,
+        [DESCRICAO] nvarchar(150) NOT NULL,
+        [QUANTIDADE] int NOT NULL,
+        [PRECO_UNITARIO] decimal(15,2) NOT NULL,
+        [VALOR_TOTAL] decimal(15,2) NOT NULL,
+        [VENDA_FINANCEIRA_ID] int NOT NULL,
+        CONSTRAINT [PK_VENDA_FINANCEIRA_ITEM] PRIMARY KEY ([ID]),
+        CONSTRAINT [FK_VENDA_FINANCEIRA_ITEM_VENDA_FINANCEIRA_VENDA_FINANCEIRA_ID] FOREIGN KEY ([VENDA_FINANCEIRA_ID]) REFERENCES [VENDA_FINANCEIRA] ([ID]) ON DELETE CASCADE
+    );
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE INDEX [IX_OUTBOX_NOTIFICACAO_PENDENTES] ON [OUTBOX_NOTIFICACAO] ([STATUS], [PROXIMA_TENTATIVA]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE INDEX [IX_OUTBOX_NOTIFICACAO_VENDA] ON [OUTBOX_NOTIFICACAO] ([VENDA_ID]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE INDEX [IX_VENDA_FINANCEIRA_DATA_VENDA] ON [VENDA_FINANCEIRA] ([DATA_VENDA]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE INDEX [IX_VENDA_FINANCEIRA_STATUS] ON [VENDA_FINANCEIRA] ([STATUS]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE UNIQUE INDEX [UQ_VENDA_FINANCEIRA_VENDA_ID] ON [VENDA_FINANCEIRA] ([VENDA_ID]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    CREATE INDEX [IX_VENDA_FINANCEIRA_ITEM_VENDA_FINANCEIRA_ID] ON [VENDA_FINANCEIRA_ITEM] ([VENDA_FINANCEIRA_ID]);
+END;
+
+IF NOT EXISTS (
+    SELECT * FROM [__EFMigrationsHistory]
+    WHERE [MigrationId] = N'20260925165452_Inicial'
+)
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20260925165452_Inicial', N'10.0.12');
+END;
+
+COMMIT;
+GO
+

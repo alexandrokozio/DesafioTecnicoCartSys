@@ -1,0 +1,48 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CB05CC36-9256-4A93-9155-B66E81100E3E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ERP.Vendas.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ERP.Vendas.Tests.dproj">
+            <Dependencies>ERP.Vendas.dproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ERP_Vendas">
+        <MSBuild Projects="ERP.Vendas.dproj"/>
+    </Target>
+    <Target Name="ERP_Vendas:Clean">
+        <MSBuild Projects="ERP.Vendas.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ERP_Vendas:Make">
+        <MSBuild Projects="ERP.Vendas.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ERP_Vendas_Tests" DependsOnTargets="ERP.Vendas">
+        <MSBuild Projects="ERP.Vendas.Tests.dproj"/>
+    </Target>
+    <Target Name="ERP_Vendas_Tests:Clean" DependsOnTargets="ERP.Vendas:Clean">
+        <MSBuild Projects="ERP.Vendas.Tests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ERP_Vendas_Tests:Make" DependsOnTargets="ERP.Vendas:Make">
+        <MSBuild Projects="ERP.Vendas.Tests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ERP_Vendas;ERP_Vendas_Tests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ERP_Vendas:Clean;ERP_Vendas_Tests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ERP_Vendas:Make;ERP_Vendas_Tests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

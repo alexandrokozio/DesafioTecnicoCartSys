@@ -1,0 +1,32 @@
+# ---- Delphi ----
+*.dcu
+*.identcache
+*.local
+*.stat
+*.dsk
+*.tvsconfig
+*.~*
+__history/
+__recovery/
+Win32/
+Win64/
+Vendas/packages/d12/bin/
+
+# Saída do Delphi: versiona apenas o necessário para executar
+# (executável, DLLs do cliente Firebird, banco de dados de exemplo e configuração).
+Vendas/packages/d12/out/*
+!Vendas/packages/d12/out/ERP.Vendas.exe
+!Vendas/packages/d12/out/*.dll
+!Vendas/packages/d12/out/*.FDB
+!Vendas/packages/d12/out/ERP.Vendas.ini
+
+# ---- .NET ----
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# ---- Runtime ----
+*.log
+logs/
